@@ -4,76 +4,48 @@
 	<title>Message Board</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-	<script type="text/javascript"></script>
-	<style type="text/css">
-		#container {
-			background: pink;
-			padding: 20px;
-			margin: 0 auto;
-		}
+	<script type="text/javascript">
 
-		#container h1 {
-			border: 2px dotted green;
-			border-radius: 10px;
-			padding: 10px;
-		}
 
-		#container form {
-			text-align: center;
-			background-color: blue;
-			color: red;
-			font-weight: bold;
-		}
-		.messages {
-			margin: 10px;
-			background: orange;
-			border: 10px groove green;
-			padding: 10px;
-			text-align :center;
-		}
-		.comments {
-			background-color: purple;
-			padding: 10px;
-			margin-left: 20px;
-			border: 5px dashed aqua;
-			border-radius: 15px;
-			color: white;
-			text-align :center;
-		}
 
-		.messages form {
-			margin: 10px;
-			text-align: center;
-			background-color: chartreuse;
-			border: ridge 15px plum;
-		}
-	</style>
+	</script>
 </head>
 <body>
 	<div id="container">
 		<h1>The Dojo Message Board</h1>
-		<form '/create_message' method="post" id="message">
+		<form action='/create_message' method="post" id="message">
 			<p>Name: </p> <input type="text" name="name">
-			<p>Message: </p> <textarea name="message"></textarea>
+			<br>
+			<p>Message: </p> <textarea name="message" cols="100" rows="10"></textarea>
 			<br>
 			<button>Post a Message</button>
 		</form>
 
+
+		<% for ( var message in messages) { %>
+
 		<div class="messages">
-			<h4>Name: Joe</h4>
-			<h4>Message: The h5 tag sucks</h4>
+			<h4>Name: 	<%= messages[message].name%></h4>
+			<h4>Message: 	<%= messages[message].message%></h4>
+
+			<% if (messages[message].comments) { %>
+				<% for (var comment in messages[message].comments) { %>
 			<div class="comments">
-				<h6>Name: Vu</h6>
-				<h6>Comment: I agree</h6>
+				<h6>Name: <%= messages[message].comments[comment].name %> </h6>
+				<h6>Comment: <%= messages[message].comments[comment].comment %></h6>
 			</div>
-			<form action="/create_comment" method="post">
+				<% }%>
+			<% } %>
+
+			<form action="/create_comment/<%= messages[message]._id%>" method="post">
 				<p>Name: </p> <input type="text" name="name">
-				<p>Comment: </p> <textarea name="comment"></textarea>
+				<br>
+				<p>Comment: </p> <textarea name="comment" cols="100" rows="5"></textarea>
 				<br>
 				<button>Post a comment!</button>
 			</form>
 		</div>
-
+		<% } %>
 	</div>
 
 </body>
