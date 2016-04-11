@@ -1,0 +1,10 @@
+#container {
+	background: pink;
+	padding: 20px;
+	margin: 0 auto;
+}
+
+#container h1 {
+	border: 2px dotted green;
+	border-radius: 10px;
+}
